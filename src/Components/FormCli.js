@@ -29,7 +29,7 @@ const Form = ({cliente, setCliente}) =>{
            .then(res => res.text())
            .then(res => console.log(res))
 
-           //reiniciando state del libro
+           //reiniciando state del cli
            //setCliente({
            // usuario: '',
             //cuil: '',

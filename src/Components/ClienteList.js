@@ -6,7 +6,7 @@ const ClienteList = ({cliente, clientes, setListUpdate}) => {
         const requestInit = {
             method : 'DELETE'
            }
-           fetch('http://localhost:3000/api/v1/cliente' + id, requestInit)
+           fetch('http://localhost:3000/api/v1/cliente' + id , requestInit)
            .then(res => res.text())
            .then(res => console.log(res))
 
@@ -15,6 +15,11 @@ const ClienteList = ({cliente, clientes, setListUpdate}) => {
     let{usuario, nombre, apellido, fechaNacimiento, direccion, telefono,razonSocial} = cliente
 
     const handleUpdate = id => {
+
+        if(usuario === '' || nombre === '' || apellido === '' || fechaNacimiento === '' || direccion === '' || telefono === '' || razonSocial === ''){
+            alert('Todos los campos son obligatorios')
+            return 
+        }   
         const requestInit = {
             method : 'PUT',
             headers: {'Content-Type': 'application/json'},
