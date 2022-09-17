@@ -1,24 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Fragment, useState, useEffect} from "react";
+import Navbar from "./Components/Navbar";
+import ClienteList from "./Components/ClienteList";
+import Form from './Components/FormCli'
 
 function App() {
+
+  const [cliente, setCliente] = useState({
+    cuil: '',
+    cuit: '',
+    nombre: '',
+    apellido: '',
+    fechaNacimiento: '',
+    direccion: '',
+    telefono: '',
+    razonSocial: ''
+  })
+
+  const [clientes, setClientes] = useState([])
+
+  const [listUpdate, setListUpdate] = useState(false)
+
+  useEffect( () => {
+    const getClientes = () => {
+      fetch('http://localhost:3000/api/v1/cliente')
+      .then(res => res.json())
+      .then(res => setClientes(res))
+    }
+    getClientes()
+    setListUpdate(false)
+  }, [listUpdate])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <Navbar brand='Pampa Nutricion App'/>
+      <div className="container">
+        <div className="row">
+          <div className="col-7">
+            <h2 style={{textAlign: 'center'}}>Lista De Clientes</h2>
+            <ClienteList cliente={cliente} clientes={clientes} setListUpdate={setListUpdate}/>
+          </div>
+        </div>
+      </div>
+      <div className="container">
+          <div className="row">
+              <div className="col-5">
+                 <h2 style={{textAlign: 'center'}}>Ingresar Cliente</h2>
+                 <Form cliente={cliente} setCliente={setCliente}/>
+              </div>
+           </div>
+      </div>
+    </Fragment>
   );
 }
 
